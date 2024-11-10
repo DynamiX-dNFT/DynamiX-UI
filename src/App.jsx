@@ -1,35 +1,79 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Mint from './pages/Mint';
+import { Web3Provider } from './context/Web3Context';
 
-function App() {
-  const [count, setCount] = useState(0)
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#4F46E5', // Modern indigo
+    },
+    secondary: {
+      main: '#10B981', // Fresh green
+    },
+    background: {
+      default: '#0F172A', // Deep blue-gray
+      paper: '#1E293B',
+    },
+  },
+  typography: {
+    fontFamily: '"Plus Jakarta Sans", "Inter", sans-serif',
+    h1: {
+      fontSize: '3.5rem',
+      fontWeight: 700,
+      background: 'linear-gradient(to right, #4F46E5, #10B981)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent',
+    },
+    h2: {
+      fontWeight: 700,
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          textTransform: 'none',
+          fontSize: '1rem',
+          padding: '10px 20px',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 8px 20px rgba(79, 70, 229, 0.3)',
+          },
+        },
+        containedPrimary: {
+          background: 'linear-gradient(45deg, #4F46E5, #10B981)',
+          '&:hover': {
+            background: 'linear-gradient(45deg, #4338CA, #059669)',
+          },
+        },
+      },
+    },
+  },
+});
 
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Web3Provider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/mint" element={<Mint />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </Web3Provider>
+  );
+};
 
-export default App
+export default App;
