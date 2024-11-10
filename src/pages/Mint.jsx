@@ -126,13 +126,13 @@ const Mint = () => {
       await mintNFT({
           to: account,
           name: formData.name,
-          team: "Team Name", // Add team or other properties as needed
+          team: "Team Name", 
           nationality: formData.nationality,
           position: formData.position,
-          goals: parseInt(formData.goals), // Convert string to number
-          worldcupwon: parseInt(formData.worldCups), // Convert string to number
-          matchesplayed: parseInt(formData.matches), // Convert string to number
-          metadataURI: `ipfs://${metadataHash}`, // Use IPFS URI for metadata
+          goals: parseInt(formData.goals), 
+          worldcupwon: parseInt(formData.worldCups), 
+          matchesplayed: parseInt(formData.matches), 
+          metadataURI: `ipfs://${metadataHash}`, 
       });
 
       alert('NFT Minted Successfully!');

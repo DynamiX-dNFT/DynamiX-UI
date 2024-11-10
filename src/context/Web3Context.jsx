@@ -897,11 +897,11 @@ export const Web3Provider = ({ children }) => {
         playerDetails.metadataURI
       );
 
-      await tx.wait(); // Wait for transaction confirmation
+      await tx.wait(); 
       console.log("NFT minted successfully:", tx);
     } catch (err) {
       console.error("Error minting NFT:", err);
-      throw err; // Re-throw error for handling in UI components if needed
+      throw err; 
     }
   };
 
@@ -926,8 +926,8 @@ export const Web3Provider = ({ children }) => {
       error,
       connectWallet,
       disconnectWallet,
-      mintNFT,         // Expose mintNFT function to the context consumers
-      getPlayerData,   // Expose getPlayerData function to the context consumers
+      mintNFT,         
+      getPlayerData,   
     }}>
       {children}
     </Web3Context.Provider>

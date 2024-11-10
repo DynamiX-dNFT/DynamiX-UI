@@ -1,8 +1,12 @@
-// pages/Home.jsx
+
 import React from 'react';
 import { Container, Typography, Button, Box, Grid, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Bolt, Shield, Autorenew, Flag, SportsScore, EmojiEvents } from '@mui/icons-material';
+
+import messiImg from '../assets/messi.jpg';
+import ronaldoImg from '../assets/ronaldo.jpg';
+import mbappeImg from '../assets/mbappe.webp';
 
 const FeatureCard = ({ icon, title, description }) => (
   <Paper 
@@ -146,7 +150,7 @@ const Home = () => {
       goals: 789,
       matches: 1000,
       worldCups: 1,
-      image: "/api/placeholder/400/400"
+      image: messiImg
     },
     {
       name: "Cristiano Ronaldo",
@@ -155,7 +159,7 @@ const Home = () => {
       goals: 819,
       matches: 1100,
       worldCups: 0,
-      image: "/api/placeholder/400/400"
+      image: ronaldoImg
     },
     {
       name: "Kylian Mbappé",
@@ -164,7 +168,7 @@ const Home = () => {
       goals: 212,
       matches: 260,
       worldCups: 1,
-      image: "/api/placeholder/400/400"
+      image: mbappeImg
     }
   ];
 
