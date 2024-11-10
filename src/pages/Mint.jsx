@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useWeb3 } from '../context/Web3Context';
+import axios from 'axios';
 import { 
   Container, 
   Typography, 
@@ -18,19 +20,27 @@ import {
   EmojiEvents,
   Flag
 } from '@mui/icons-material';
-import { useWeb3 } from '../context/Web3Context';
 
 const Mint = () => {
   const navigate = useNavigate();
   const { account, connectWallet } = useWeb3();
 
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setFile(prev => ({ ...prev, imageFile: e.target.files[0]}));
+  };
+
+
   const [formData, setFormData] = useState({
     name: '',
-    position: '',
+    team: '',
     nationality: '',
+    position: '',
     goals: '',
-    matches: '',
-    worldCups: ''
+    worldcupwon: '',
+    matchesplayed: '',
+    metadataURI: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -96,9 +106,43 @@ const Mint = () => {
       return;
     }
 
-    // Add minting logic here
-    console.log('Minting with data:', formData);
+    
+    try {
+      // Create FormData object to send data
+      const formData = new FormData();
+      formData.append('image', formData.imageFile);
+      formData.append('name', formData.name);
+      formData.append('position', formData.position);
+      formData.append('nationality', formData.nationality);
+      formData.append('goals', formData.goals);
+      formData.append('matches', formData.matches);
+      formData.append('worldCups', formData.worldCups);
+
+      // Send POST request to upload image and metadata
+      const response = await axios.post('http://localhost:3001/upload', formData);
+      const { metadataHash } = response.data;
+
+      // Mint the NFT using the received metadata hash
+      await mintNFT({
+          to: account,
+          name: formData.name,
+          team: "Team Name", // Add team or other properties as needed
+          nationality: formData.nationality,
+          position: formData.position,
+          goals: parseInt(formData.goals), // Convert string to number
+          worldcupwon: parseInt(formData.worldCups), // Convert string to number
+          matchesplayed: parseInt(formData.matches), // Convert string to number
+          metadataURI: `ipfs://${metadataHash}`, // Use IPFS URI for metadata
+      });
+
+      alert('NFT Minted Successfully!');
+  } catch (error) {
+      console.error("Minting failed:", error);
+      alert('Error minting NFT');
+  }
+    
   };
+
 
   return (
     <Box
@@ -308,7 +352,13 @@ const Mint = () => {
                       }}
                     />
                   </Grid>
-
+                  <Grid item xs={12}>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+      />
+    </Grid>
                   <Grid item xs={12}>
                     <Button
                       fullWidth
